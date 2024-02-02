@@ -67,10 +67,23 @@ export const InvoiceApp = () => {
     setItems(items.filter((item) => item.id !== id));
   };
 
+  const handlerUpdateItem = (id, updatedItem) => {
+    setItems(items.map(item => {
+      if (item.id === id) {
+        return {
+          ...item,
+          ...updatedItem
+        };
+      }
+      return item;
+    }));
+  };
+
+
   const onActiveForm = () => {
     setActiveForm(!activeForm);
   };
-  
+
   return (
     <div className="container">
       <div className="card my-2">

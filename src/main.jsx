@@ -4,10 +4,11 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 // import { ConterApp } from "./components/CounterApp";
 // import { Hello } from "./Hello.jsx";
-import { InvoiceApp } from "./InvoiceApp";
+// import { InvoiceApp } from "./InvoiceApp";
+import { CartApp } from "./CartApp";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <InvoiceApp />
+    <CartApp/>
   </React.StrictMode>
 );
