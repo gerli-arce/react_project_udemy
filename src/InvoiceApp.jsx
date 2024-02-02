@@ -1,70 +1,56 @@
-import { useState } from "react";
-import { getInvoice } from "./services/getInvoice";
+import { useEffect, useState } from "react";
+import { getInvoice, calculateTotal } from "./services/getInvoice";
 import { InvoiceView } from "./components/invoice/InvoiceView";
 import { ClientView } from "./components/invoice/ClientView";
 import { CompanyView } from "./components/invoice/CompanyView";
 import { ListItemView } from "./components/invoice/ListItemsView";
 import { TotalView } from "./components/invoice/TotalView";
+import { FormItemsView } from "./components/invoice/FormItemsView";
+
+const voiceInitial = {
+  id: 0,
+  name: "",
+  client: {
+    name: "",
+    lastname: "",
+    address: {
+      country: "",
+      city: "",
+      street: "",
+      number: 0,
+    },
+  },
+  company: {
+    name: "",
+    ruc: 0,
+  },
+  items: [],
+};
 
 export const InvoiceApp = () => {
-  const {
-    total,
-    id,
-    name: nameInvoice,
-    client,
-    company,
-    items: itemsInitial,
-  } = getInvoice();
-
-  // const [nameValue, setNameValue] = useState("");
-  // const [priceValue, setPriceValue] = useState("");
-  // const [quantityValue, setQuantityValue] = useState("");
-
-  const [formItemsState, setFormItemsState] = useState({
-    name: "",
-    price: "",
-    quantity: "",
-  });
-
-  const { name, price, quantity } = formItemsState;
-
-  const [items, setItems] = useState(itemsInitial);
-
+  const [activeForm, setActiveForm] = useState(false);
   const [counter, setCounter] = useState(4);
 
-  // const onNameChange = (event) => {
-  //   console.log(event.target.value);
-  //   setNameValue(event.target.value);
-  // }
+  const [total, setTotal] = useState(0);
 
-  // const onPriceChange = (event) => {
-  //   console.log(event.target.value);
-  //   setPriceValue(event.target.value);
-  // }
+  const [items, setItems] = useState([]);
 
-  // const onQuantityChange = (event) => {
-  //   console.log(event.target.value);
-  //   setQuantityValue(event.target.value);
-  // }
+  const [invoice, setInvoice] = useState(voiceInitial);
 
-  const onInputChange = ({ target: {name, value} }) => {
-    console.log(name, value);
-    setFormItemsState({
-      ...formItemsState,
-      [name]: value,
-    });
-  };
+  const { id, name: nameInvoice, client, company } = invoice;
 
-  const onInvoiceSubmit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    const data = getInvoice();
+    console.log(data);
+    setInvoice(data);
+    setItems(data.items);
+  }, []);
 
-    if (
-      name.trim() === "" ||
-      price.trim() === "" ||
-      quantity.trim() === ""
-    )
-      return console.log("Campos vacios");
+  useEffect(() => {
+    setTotal(calculateTotal(items));
+  }, [items]);
 
+  const handlerAddItems = ({ name, price, quantity }) => {
     setItems([
       ...items,
       {
@@ -74,14 +60,17 @@ export const InvoiceApp = () => {
         quantity: +quantity.trim(),
       },
     ]);
-    setFormItemsState({
-      name: "",
-      price: "",
-      quantity: "",
-    });
     setCounter(counter + 1);
   };
 
+  const handlerDeleteItem = (id) => {
+    setItems(items.filter((item) => item.id !== id));
+  };
+
+  const onActiveForm = () => {
+    setActiveForm(!activeForm);
+  };
+  
   return (
     <div className="container">
       <div className="card my-2">
@@ -97,37 +86,12 @@ export const InvoiceApp = () => {
             </div>
           </div>
 
-          <ListItemView title={"Productos de factura"} items={items} />
+          <ListItemView title={"Productos de factura"} items={items} handlerDeleteItem={id =>handlerDeleteItem(id)}/>
           <TotalView total={total} />
-          <form className="w-50" onSubmit={onInvoiceSubmit}>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              placeholder="Nombre"
-              className="form-control m-3"
-              onChange={onInputChange}
-            />
-            <input
-              type="number"
-              name="price"
-              value={price}
-              placeholder="Precio"
-              className="form-control m-3"
-              onChange={onInputChange}
-            />
-            <input
-              type="number"
-              name="quantity"
-              value={quantity}
-              placeholder="Cantidad"
-              className="form-control m-3"
-              onChange={onInputChange}
-            />
-            <button type="submit" className="btn btn-success  m-3">
-              Crear Item
-            </button>
-          </form>
+          <button className="btn btn-secondary" onClick={onActiveForm}>
+            {!activeForm ? "Agregar Item" : "Ocultar Formulario"}
+          </button>
+          {!activeForm || <FormItemsView handler={handlerAddItems} />}
         </div>
       </div>
     </div>
