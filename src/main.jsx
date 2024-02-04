@@ -7,11 +7,15 @@ import "./index.css";
 // import { Hello } from "./Hello.jsx";
 // import { InvoiceApp } from "./InvoiceApp";
 import { CartApp } from "./CartApp";
+import { UsersApp } from "./UsersApp";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
+    {/* <BrowserRouter>
       <CartApp />
-    </BrowserRouter>
+    </BrowserRouter> */}
+    <UsersApp/>
+
+
   </React.StrictMode>
 );
