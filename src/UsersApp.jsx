@@ -18,7 +18,7 @@ export const UsersApp = () => {
           />
       ) : <>
       <Route path="/login" element={<LoginPage handlerLogin={handlerLogin} />}/></>}
-      <Route path="/*" to={<Navigate to="login" />}/>
+      <Route path="/*" element={<Navigate to="login" />}/>
     </Routes>
   );
 };
