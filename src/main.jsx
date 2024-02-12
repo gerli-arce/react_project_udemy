@@ -8,6 +8,7 @@ import "./index.css";
 // import { InvoiceApp } from "./InvoiceApp";
 import { CartApp } from "./CartApp";
 import { UsersApp } from "./UsersApp";
+import { LoginPage } from "./auth/pages/LoginPage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <CartApp />
     </BrowserRouter> */}
     <UsersApp/>
+    {/* <LoginPage/> */}
 
 
   </React.StrictMode>
