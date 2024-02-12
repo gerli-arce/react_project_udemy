@@ -15,9 +15,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     {/* <BrowserRouter>
       <CartApp />
     </BrowserRouter> */}
-    <UsersApp/>
+    <BrowserRouter>
+      <UsersApp />
+    </BrowserRouter>
     {/* <LoginPage/> */}
-
-
   </React.StrictMode>
 );
