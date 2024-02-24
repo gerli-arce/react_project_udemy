@@ -9,6 +9,7 @@ import "./index.css";
 import { CartApp } from "./CartApp";
 import { UsersApp } from "./UsersApp";
 import { LoginPage } from "./auth/pages/LoginPage";
+import { AuthProvider } from "./auth/context/AuthProvide";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <CartApp />
     </BrowserRouter> */}
     <BrowserRouter>
-      <UsersApp />
+      <AuthProvider>
+        <UsersApp />
+      </AuthProvider>
     </BrowserRouter>
     {/* <LoginPage/> */}
   </React.StrictMode>
