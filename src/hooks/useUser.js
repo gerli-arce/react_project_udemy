@@ -1,6 +1,7 @@
 import { useReducer, useState } from "react";
 import { usersReducer } from "../reducer/usersReduce";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const initialUsers = [
   {
@@ -21,6 +22,7 @@ export const useUserForm = () => {
   const [users, dispatch] = useReducer(usersReducer, initialUsers);
   const [userSelected, setUserSelected] = useState(initialUserForm);
   const [visibleForm, setVisibleForm] = useState(false);
+  const navigate = useNavigate();
 
   const handlerAddUser = (user) => {
     dispatch({ type: user.id !== 0?'updateUser':'addUser', payload: user });
@@ -31,6 +33,7 @@ export const useUserForm = () => {
         : "El usuario se ha actualizado correctamente",
       "success"
     );
+    navigate("/users")
     handlerCloseForm()
   };
 

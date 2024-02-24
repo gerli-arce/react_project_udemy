@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-export const UserForm = ({userSelected, handlerAddUser, initialUserForm, handlerCloseForm}) => {
+export const UserForm = ({
+  userSelected,
+  handlerAddUser,
+  initialUserForm,
+  handlerCloseForm,
+}) => {
   const [userForm, setUserForm] = useState(initialUserForm);
 
-  const {id, username, password, email } = userForm;
+  const { id, username, password, email } = userForm;
 
   useEffect(() => {
     setUserForm(userSelected);
@@ -22,25 +27,33 @@ export const UserForm = ({userSelected, handlerAddUser, initialUserForm, handler
     e.preventDefault();
     if (
       username.trim() === "" ||
-      (!password && id ==0) ||
+      (!password && id == 0) ||
       email.trim() === ""
     ) {
       Swal.fire({
         title: "Error de validación",
         text: "Todos los campos son requeridos!",
-        icon: "question"
+        icon: "question",
       });
       return;
     }
-    handlerAddUser(userForm)
+    if(!email.includes("@")){
+      Swal.fire({
+        title: "Error de validación",
+        text: "El email debe contener un @!",
+        icon: "question",
+      });
+      return;
+    }
+    handlerAddUser(userForm);
     console.log("submit", userForm);
     setUserForm(initialUserForm);
   };
 
   const onCloseForm = () => {
-    handlerCloseForm()
+    handlerCloseForm();
     setUserForm(initialUserForm);
-  }
+  };
 
   return (
     <>
@@ -53,15 +66,17 @@ export const UserForm = ({userSelected, handlerAddUser, initialUserForm, handler
           className="form-control my-3 w-75"
           onChange={onInputChange}
         />
-        {id !== 0  || ( <input
-          type="password"
-          value={password}
-          placeholder="Passsword"
-          name="password"
-          className="form-control my-3 w-75"
-          onChange={onInputChange}
-        />)}
-       
+        {id !== 0 || (
+          <input
+            type="password"
+            value={password}
+            placeholder="Passsword"
+            name="password"
+            className="form-control my-3 w-75"
+            onChange={onInputChange}
+          />
+        )}
+
         <input
           type="email"
           value={email}
@@ -74,8 +89,16 @@ export const UserForm = ({userSelected, handlerAddUser, initialUserForm, handler
         <button type="submit" className="btn btn-primary w-75">
           {id === 0 ? "Add" : "Update"}
         </button>
-        <button onClick={()=> onCloseForm()} type="button" className="btn btn-primary mx-2">Cerrar</button>
 
+        {!handlerCloseForm || (
+          <button
+            onClick={() => onCloseForm()}
+            type="button"
+            className="btn btn-primary mx-2"
+          >
+            Cerrar
+          </button>
+        )}
       </form>
     </>
   );

@@ -1,19 +1,17 @@
 import { UserModalForm } from "../components/users/UserModalForm";
 import { UsersList } from "../components/users/UsersList";
-import { useUserForm } from "../hooks/useUser";
 
-export const UsersPage = () => {
-  const {
-    users,
-    userSelected,
-    initialUserForm,
-    visibleForm,
-    handlerAddUser,
-    handlerRemoveUser,
-    handlerUserSelectedForm,
-    handlerOpenForm,
-    handlerCloseForm,
-  } = useUserForm();
+export const UsersPage = ({
+  users,
+  userSelected,
+  initialUserForm,
+  visibleForm,
+  handlerAddUser,
+  handlerRemoveUser,
+  handlerUserSelectedForm,
+  handlerOpenForm,
+  handlerCloseForm,
+}) => {
 
   return (
     <>
