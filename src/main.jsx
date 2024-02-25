@@ -13,14 +13,14 @@ import { AuthProvider } from "./auth/context/AuthProvide";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    {/* <BrowserRouter>
-      <CartApp />
-    </BrowserRouter> */}
     <BrowserRouter>
+      <CartApp />
+    </BrowserRouter>
+    {/* <BrowserRouter>
       <AuthProvider>
         <UsersApp />
       </AuthProvider>
-    </BrowserRouter>
+    </BrowserRouter> */}
     {/* <LoginPage/> */}
   </React.StrictMode>
 );
