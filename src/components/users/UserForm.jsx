@@ -5,7 +5,7 @@ export const UserForm = ({
   userSelected,
   handlerCloseForm,
 }) => {
-  const {initialUserForm, handlerAddUser} = useContext(UserContext);
+  const {initialUserForm, handlerAddUser, errors} = useContext(UserContext);
   const [userForm, setUserForm] = useState(initialUserForm);
 
   const { id, username, password, email } = userForm;
@@ -25,29 +25,27 @@ export const UserForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (
-      username.trim() === "" ||
-      (!password && id == 0) ||
-      email.trim() === ""
-    ) {
-      Swal.fire({
-        title: "Error de validación",
-        text: "Todos los campos son requeridos!",
-        icon: "question",
-      });
-      return;
-    }
-    if(!email.includes("@")){
-      Swal.fire({
-        title: "Error de validación",
-        text: "El email debe contener un @!",
-        icon: "question",
-      });
-      return;
-    }
+    // if (
+    //   username.trim() === "" ||
+    //   (!password && id == 0) ||
+    //   email.trim() === ""
+    // ) {
+    //   Swal.fire({
+    //     title: "Error de validación",
+    //     text: "Todos los campos son requeridos!",
+    //     icon: "question",
+    //   });
+    //   return;
+    // }
+    // if(!email.includes("@")){
+    //   Swal.fire({
+    //     title: "Error de validación",
+    //     text: "El email debe contener un @!",
+    //     icon: "question",
+    //   });
+    //   return;
+    // }
     handlerAddUser(userForm);
-    console.log("submit", userForm);
-    setUserForm(initialUserForm);
   };
 
   const onCloseForm = () => {
@@ -66,6 +64,7 @@ export const UserForm = ({
           className="form-control my-3 w-75"
           onChange={onInputChange}
         />
+        <p className="text-danger">{errors?.username}</p>
         {id !== 0 || (
           <input
             type="password"
@@ -76,6 +75,7 @@ export const UserForm = ({
             onChange={onInputChange}
           />
         )}
+        <p className="text-danger">{errors?.password}</p>
 
         <input
           type="email"
@@ -85,6 +85,8 @@ export const UserForm = ({
           className="form-control my-3 w-75"
           onChange={onInputChange}
         />
+        <p className="text-danger">{errors?.email}</p>
+
         <input type="hidden" value={id} name="id" />
         <button type="submit" className="btn btn-primary w-75">
           {id === 0 ? "Add" : "Update"}
